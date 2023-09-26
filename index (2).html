@@ -207,7 +207,8 @@
       });
 
       function enterInput(val) {
-        context = context + "### Human:" + val + "### Assistant:";
+        // context = context + "### Human:" + val + "### Assistant:";
+        context = val;
         chatArray.push(val);
         callBot();
         updateChatView();
@@ -228,12 +229,22 @@
         })
           .then(async (response) => {
             const data = await response.text();
+            console.log("response1:- "+ data);
+            updateContext(data);
             updateChatView();
           })
           .catch((error) => {
             console.log(error);
+            updateContext("ERROR");
             updateChatView();
           });
+      }
+
+      function updateContext(text) {
+        // context = context + text;
+        context = text;
+        console.log(text);
+        chatArray.push(text);
       }
 
       function updateChatView() {
@@ -287,7 +298,16 @@
 
       // update slider Values
       
-     
+      tempInput.addEventListener('input', function() {
+        tempLabel.textContent = tempInput.value;
+      });
+      top_pInput.addEventListener('input', function() {
+        top_pLabel.textContent = top_pInput.value;
+      });
+      maxTokInput.addEventListener('input', function() {
+        maxTokLabel.textContent = maxTokInput.value;
+      });
+
       //open close modal
       document.querySelector("#close").addEventListener("click", function() {
         document.querySelector("#modal").style.display = "none";
